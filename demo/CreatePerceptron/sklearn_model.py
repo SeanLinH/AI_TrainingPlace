@@ -62,15 +62,14 @@ X_test_std = sc.transform(X_test)
 
 #Select model
 
-'''
+
 #Perceptron learning 
 from sklearn.linear_model import Perceptron
 
-ppn = Perceptron(max_iter = 10, eta0=0.1, random_state=0)
+ppn = Perceptron(max_iter = 100, eta0=0.1, random_state=1)
 ppn.fit(X_train_std, y_train)   
-
 y_pred = ppn.predict(X_test_std)
-print('Misclassified samples: %d' % (y_test!= y_pred).sum())
+
 
 
 from sklearn.linear_model import LogisticRegression
@@ -78,7 +77,7 @@ from sklearn.linear_model import LogisticRegression
 lr = LogisticRegression(C=100.0, random_state=1)
 lr.fit(X_train_std, y_train)
 y_pred = lr.predict(X_test_std)
-'''
+
 
 from sklearn.svm import SVC
 
@@ -97,6 +96,7 @@ A = []
 for i in range(len(np.unique(y))):A.append([1])
 A = np.matrix(A)
 Accuracy = cm.diagonal() / (cm*A).T
+print('Misclassified samples: %d' % (y_test!= y_pred).sum())
 print('Accuracy: %.2f' % (Accuracy*A / len(np.unique(y))))
 
 from sklearn.metrics import accuracy_score
@@ -151,21 +151,22 @@ def plot_decision_regions(X, y, classifier, test_idx=None, resolution=0.02):
                     marker='o',
                     s=100, 
                     label='test set')
-        
-
 
 X_combined_std = np.vstack((X_train_std, X_test_std))
 y_combined = np.hstack((y_train, y_test))
 
 plot_decision_regions(X=X_combined_std, y=y_combined,
-                      classifier=svm, test_idx=range(105, 150))
+                      classifier=ppn, test_idx=range(105, 150))
+plt.title('max_iter = %d' %i)
 plt.xlabel('petal length [standardized]')
 plt.ylabel('petal width [standardized]')
 plt.legend(loc='upper left')
-
 plt.tight_layout()
-#plt.savefig('images/03_01.png', dpi=300)
 plt.show()
+
+
+
+
 
 
 
