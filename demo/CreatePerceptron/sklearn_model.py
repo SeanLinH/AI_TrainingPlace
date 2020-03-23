@@ -61,17 +61,20 @@ X_test_std = sc.transform(X_test)
 # In[6]:
 
 #Select model
+from sklearn.linear_model import Perceptron
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
 
-
+'''
 #Perceptron learning 
 from sklearn.linear_model import Perceptron
 
-ppn = Perceptron(max_iter = 100, eta0=0.1, random_state=1)
+ppn = Perceptron(max_iter = 100, eta0=0.1, random_state=None)
 ppn.fit(X_train_std, y_train)   
 y_pred = ppn.predict(X_test_std)
 
 
-
+#Logistic Regression learning 
 from sklearn.linear_model import LogisticRegression
 
 lr = LogisticRegression(C=100.0, random_state=1)
@@ -79,6 +82,7 @@ lr.fit(X_train_std, y_train)
 y_pred = lr.predict(X_test_std)
 
 
+#SVM learning
 from sklearn.svm import SVC
 
 svm = SVC(kernel='linear', C=1.0, random_state=1)
@@ -102,12 +106,13 @@ print('Accuracy: %.2f' % (Accuracy*A / len(np.unique(y))))
 from sklearn.metrics import accuracy_score
 print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
 
-
+'''
 # In[8]:
 #Plot result
 
 from matplotlib.colors import ListedColormap
 import matplotlib.pyplot as plt
+
 
 
 def plot_decision_regions(X, y, classifier, test_idx=None, resolution=0.02):
@@ -152,6 +157,42 @@ def plot_decision_regions(X, y, classifier, test_idx=None, resolution=0.02):
                     s=100, 
                     label='test set')
 
+from sklearn.metrics import accuracy_score
+
+i = 11
+for x in range(10):
+    i = i-1
+    plt.close('all')
+
+    ppn = Perceptron(max_iter = 100, eta0=0.1, random_state=None)
+    ppn.fit(X_train_std, y_train)   
+    y_pred = ppn.predict(X_test_std)
+    
+    plt.close('all')
+    X_combined_std = np.vstack((X_train_std, X_test_std))
+    y_combined = np.hstack((y_train, y_test))
+    
+    plot_decision_regions(X=X_combined_std, y=y_combined,
+                          classifier=ppn, test_idx=range(105, 150))
+    
+    plt.text(2.5, 2.2, "Accuracy = %.2f " %accuracy_score(y_test, y_pred)  , size=12, rotation=0,
+   ha="center", va="center",
+   bbox=dict(boxstyle="round",
+     ec=(1., 0.5, 0.5),
+     fc=(1., 0.8, 0.8),
+     )
+   )
+    plt.title('Taining No.%d' %i)
+    plt.xlabel('petal length [standardized]')
+    plt.ylabel('petal width [standardized]')
+    plt.tight_layout()
+    plt.draw()
+    plt.savefig('/Users/linshihuan/Documents/GitHub/AI_TrainingPlace/demo/CreatePerceptron/Images/ppn_0%d.png'%i, dpi=300)
+
+
+
+
+'''
 X_combined_std = np.vstack((X_train_std, X_test_std))
 y_combined = np.hstack((y_train, y_test))
 
@@ -163,8 +204,7 @@ plt.ylabel('petal width [standardized]')
 plt.legend(loc='upper left')
 plt.tight_layout()
 plt.show()
-
-
+'''
 
 
 
