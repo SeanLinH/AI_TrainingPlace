@@ -10,8 +10,9 @@ Created on Sun Apr 26 16:09:15 2020
 import csv
 import numpy as np
 import tensorflow as tf
+import os
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from os import getcwd
+
 
     
 def get_data(filename):
@@ -45,9 +46,9 @@ def get_data(filename):
         
     return images, labels
 
-
-path_sign_mnist_train = '/Users/linshihuan/Downloads/sign-language-mnist/sign_mnist_train.csv'
-path_sign_mnist_test = '/Users/linshihuan/Downloads/sign-language-mnist/sign_mnist_test.csv'
+path_file= os.path.abspath('.')
+path_sign_mnist_train = path_file + '/sign_mnist_train.csv'
+path_sign_mnist_test = path_file + '/sign_mnist_test.csv'
 testing_images, testing_labels = get_data(path_sign_mnist_test)
 training_images, training_labels = get_data(path_sign_mnist_train)
         
