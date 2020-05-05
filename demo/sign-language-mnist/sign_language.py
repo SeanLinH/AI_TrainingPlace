@@ -41,8 +41,10 @@ def get_data(filename):
             images.append(images_2d)
             labels = np.append(labels, list[0])
         labels = np.delete(labels,0,0)
+        labels = labels.astype(float)
         images = np.array(images)
         images = np.delete(images,0,0)
+        images = images.astype(float)
         
     return images, labels
 
