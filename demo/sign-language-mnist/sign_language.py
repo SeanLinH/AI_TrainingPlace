@@ -17,21 +17,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
     
 def get_data(filename):
     
-  # You will need to write code that will read the file passed
-  # into this function. The first line contains the column headers
-  # so you should ignore it
-  # Each successive line contians 785 comma separated values between 0 and 255
-  # The first value is the label
-  # The rest are the pixel values for that picture
-  # The function will return 2 np.array types. One with all the labels
-  # One with all the images
-  #
-  # Tips: 
-  # If you read a full line (as 'row') then row[0] has the label
-  # and row[1:785] has the 784 pixel values
-  # Take a look at np.array_split to turn the 784 pixels into 28x28
-  # You are reading in strings, but need the values to be floats
-  # Check out np.array().astype for a conversion
+
     with open(filename) as training_file:
         csv_file = csv.reader(training_file, delimiter=',')
         images = []
@@ -41,13 +27,35 @@ def get_data(filename):
             images.append(images_2d)
             labels = np.append(labels, list[0])
         labels = np.delete(labels,0,0)
-        labels = labels.astype(float)
+        labels = labels.astype(int)
         images = np.array(images)
         images = np.delete(images,0,0)
         images = images.astype(float)
+    
         
     return images, labels
 
+#If you want to try txt processing 
+'''
+    with open(filename) as training_file:
+        txt_file = np.loadtxt(training_file, delimiter=',', skiprows=1)
+        images = []
+        labels = []
+        
+        for list in txt_file:
+            images_2d = [list[i:i+28] for i in range(1, 785, 28)]
+            images.append(images_2d)
+            labels = np.append(labels, list[0])
+        training_file.close()
+        labels = labels.astype(int)
+        images = np.array(images)
+        images = images.astype(float)
+        images_2d = None
+        txt_file = None
+        
+        training_file.close()
+    return images, labels
+'''
 path_file= os.path.abspath('.')
 path_sign_mnist_train = path_file + '/sign_mnist_train.csv'
 path_sign_mnist_test = path_file + '/sign_mnist_test.csv'
@@ -91,7 +99,6 @@ print(testing_images.shape)
 # In[3]
 
 # Define the model
-# Use no more than 2 Conv2D and 2 MaxPooling2D
 model = tf.keras.models.Sequential([
     tf.keras.layers.Conv2D(32,kernel_size=(3,3),
                  strides=1,padding='same',activation='relu',input_shape=(28,28,1)),
@@ -112,7 +119,7 @@ model.compile(loss = 'sparse_categorical_crossentropy', optimizer = 'adam' , met
 # Train the Model
 history = model.fit_generator(train_datagen.flow(training_images, training_labels, batch_size=25),
                               steps_per_epoch=len(training_images)/25,
-                              epochs=2,
+                              epochs=5,
                               validation_data = validation_datagen.flow(testing_images, testing_labels, batch_size=25),
                               validation_steps=len(testing_images)/25)
 
