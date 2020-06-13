@@ -69,6 +69,7 @@ print(testing_images.shape)
 print(testing_labels.shape)
 
 
+
 # In[2]
 training_images = np.expand_dims(training_images, axis=3)# Your Code Here
 testing_images = np.expand_dims(testing_images, axis=3)# Your Code Here
@@ -82,14 +83,10 @@ train_datagen = ImageDataGenerator(
     shear_range=0,
     zoom_range=0.2,
     horizontal_flip=True,
-    fill_mode='nearest'
-    # Your Code Here
-    )
+    fill_mode='nearest')
 
 
-validation_datagen = ImageDataGenerator(rescale=1./255
-    # Your Code Here            
-                                       )
+validation_datagen = ImageDataGenerator(rescale=1./255)
 
     
 # Keep These
@@ -109,9 +106,7 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Dropout(0.25),
     tf.keras.layers.Dense(512, activation='relu'),
     tf.keras.layers.Dense(128, activation='relu'),
-    tf.keras.layers.Dense(25, activation='softmax')]
-    # Your Code Here
-    )
+    tf.keras.layers.Dense(25, activation='softmax')])
 
 # Compile Model. 
 model.compile(loss = 'sparse_categorical_crossentropy', optimizer = 'adam' , metrics=['accuracy'])

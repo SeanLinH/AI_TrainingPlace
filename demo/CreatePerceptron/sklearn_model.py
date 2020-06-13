@@ -15,7 +15,7 @@ y = dataset.iloc[:,4]
 
 #Encoding category data
 from sklearn.preprocessing import LabelEncoder 
-labelencoder_y = LabelEncoder()
+labelencoder_y = LabelEncoder() 
 y = labelencoder_y.fit_transform(y)
     
 print('Class labels:', np.unique(y))
@@ -80,7 +80,7 @@ from sklearn.linear_model import LogisticRegression
 lr = LogisticRegression(C=100.0, random_state=1)
 lr.fit(X_train_std, y_train)
 y_pred = lr.predict(X_test_std)
-
+'''
 
 #SVM learning
 from sklearn.svm import SVC
@@ -106,7 +106,7 @@ print('Accuracy: %.2f' % (Accuracy*A / len(np.unique(y))))
 from sklearn.metrics import accuracy_score
 print('Accuracy: %.2f' % accuracy_score(y_test, y_pred))
 
-'''
+
 # In[8]:
 #Plot result
 
@@ -187,10 +187,7 @@ for x in range(10):
     plt.ylabel('petal width [standardized]')
     plt.tight_layout()
     plt.draw()
-    plt.savefig('/Users/linshihuan/Documents/GitHub/AI_TrainingPlace/demo/CreatePerceptron/Images/ppn_0%d.png'%i, dpi=300)
-
-
-
+#    plt.savefig('/Users/linshihuan/Documents/GitHub/AI_TrainingPlace/demo/CreatePerceptron/Images/ppn_0%d.png'%i, dpi=300)
 
 '''
 X_combined_std = np.vstack((X_train_std, X_test_std))
